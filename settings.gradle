@@ -1,0 +1,3 @@
+rootProject.name='DynamicUiLibrary'
+include ':app'
+include ':dynamicui'
