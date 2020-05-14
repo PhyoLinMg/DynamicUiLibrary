@@ -9,12 +9,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import android.view.View
+import android.widget.*
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.widget.addTextChangedListener
+import com.elemental.dynamicui.builder.ViewBuilder
+import com.elemental.dynamicui.interfaces.UiParentClickListener
+
 
 object DynamicUtility {
     fun createTextView(layoutResId: Int, context: Context,text:String,isSingleLine:Boolean=false): TextView {
@@ -29,24 +30,16 @@ object DynamicUtility {
             ellipsize=TextUtils.TruncateAt.END
         }
     }
-    fun createImageView(layoutResId: Int,url:String,activity:Activity):ImageView{
-        val imageView= (LayoutInflater.from(activity).inflate(layoutResId,null) as ImageView).apply {
+    fun createImageView(layoutResId: Int,url:String,context: Context):ImageView{
+        val imageView= (LayoutInflater.from(context).inflate(layoutResId,null) as ImageView).apply {
             adjustViewBounds=true
-        }
-
-        GlobalScope.launch {
-            updateUI(imageView, Utils.getImageBitmap(url),activity)
+            loadUrl(url)
         }
         return imageView
-
-    }
-    private fun updateUI(imageView:ImageView,bitmap: Bitmap?,activity:Activity){
-        activity.runOnUiThread(java.lang.Runnable {
-            imageView.setImageBitmap(bitmap)
-        })
     }
 
-    fun createEditText(layoutResId:Int,isSingleLine: Boolean=false,hint:String,context:Context,type:String?):EditText{
+
+    fun createEditText(layoutResId:Int, isSingleLine: Boolean=false, hint:String, context:Context, type:String?, refParentClickListener:UiParentClickListener?, itemView: View, adapterPosition:Int):EditText{
         return (LayoutInflater.from(context).inflate(layoutResId,null) as EditText).apply {
             if(isSingleLine){
                 this.isSingleLine=true
@@ -63,14 +56,37 @@ object DynamicUtility {
                     this.inputType=InputType.TYPE_CLASS_PHONE
                 }
             }
+            this.addTextChangedListener{
+                refParentClickListener?.onViewClicked(
+                    v = itemView,
+                    position = adapterPosition,
+                    value = it.toString()
+                )
+            }
         }
     }
-    fun createButton(layoutResId: Int,context:Context,text: String,isAllCaps:Boolean=false):Button{
+    fun createButton(layoutResId: Int,context:Context,text: String,isAllCaps:Boolean=false,viewBuilder: ViewBuilder):Button{
         return (LayoutInflater.from(context).inflate(layoutResId,null) as Button).apply {
             this.isAllCaps=isAllCaps
             this.text=text
+            this.setOnClickListener {
+                viewBuilder.dynamicButton.onClickListener?.onClick(it)
+            }
         }
     }
+    fun createSpace(
+        context: Context, dp: Int
+    ): RelativeLayout {
+        val relativeLayout = RelativeLayout(context)
+        relativeLayout.layoutParams = LinearLayoutCompat.LayoutParams(
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+            (context.resources.displayMetrics.density * dp).toInt()
+        )
+//        relativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.divider))
+        return relativeLayout
+    }
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.elemental.dynamicui.builder
 
+import android.app.Activity
 import com.elemental.dyanmicui.R
 import com.elemental.dynamicui.DynamicAdapter
 import com.elemental.dynamicui.view.DynamicButton
@@ -27,7 +28,9 @@ class ViewBuilder private constructor(
             null,
             null
         ),
-        var dynamicInnerAdapter: Any = DynamicAdapter(null, null, null)
+        var dynamicInnerAdapter: Any = DynamicAdapter(null, null, null),
+        var activity:Activity?=null
+
     ) {
         fun setTextView(dynamicTextView: DynamicTextView) =
             apply { this.dynamicTextView = dynamicTextView }
@@ -41,6 +44,8 @@ class ViewBuilder private constructor(
 
         fun setInnerAdapter(dynamicInnerAdapter: Any) =
             apply { this.dynamicInnerAdapter = dynamicInnerAdapter }
+
+
 
         fun build() = ViewBuilder(
             dynamicTextView,

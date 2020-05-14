@@ -2,7 +2,10 @@ package com.elemental.dynamicui.utils
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.widget.EditText
 import java.io.BufferedInputStream
 import java.io.IOException
 import java.io.InputStream
@@ -27,4 +30,5 @@ object Utils {
         }
         return bm
     }
+
 }

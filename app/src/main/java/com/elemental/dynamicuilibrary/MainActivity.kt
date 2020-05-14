@@ -1,38 +1,66 @@
 package com.elemental.dynamicuilibrary
 
-import android.app.Activity
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.ImageView
-import com.elemental.dynamicui.utils.DynamicUtility
-import com.elemental.dynamicui.utils.DynamicUtility.createImageView
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.elemental.dynamicui.DynamicAdapter
+import com.elemental.dynamicui.ViewData.UiCollectionList
+import com.elemental.dynamicui.interfaces.UiParentClickListener
+import com.elemental.dynamicui.view.DynamicView
+import com.elemental.dynamicuilibrary.utils.Utils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.io.BufferedInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.URL
-import java.net.URLConnection
+import java.lang.reflect.Type
+import com.elemental.dynamicuilibrary.R
+import com.elemental.dynamicui.builder.ViewBuilder
+import com.elemental.dynamicui.interfaces.OnClickListener
+import com.elemental.dynamicui.view.DynamicButton
+
 
 class MainActivity : AppCompatActivity() {
     var bitmap:Bitmap?=null
+    lateinit var dynamicView:DynamicView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val url =
-            "https://vignette.wikia.nocookie.net/haikyuu/images/3/3c/Shimizu_S4.png/revision/latest?cb=20200114005140&path-prefix=es"
+        val jsonFileString: String =
+            Utils.getJsonFromAssets(applicationContext, "testing.json")!!
+        Log.d("data", jsonFileString)
 
-        val imageView=createImageView(R.layout.image,url,this)
-        linearlayout.addView(imageView)
+        val gson = Gson()
+
+        val list=gson.fromJson(jsonFileString,UiCollectionList::class.java)
+
+        val viewBuilder=ViewBuilder.Builder().setButton(DynamicButton(R.layout.btn,null,onClickListener = object: OnClickListener{
+            override fun onClick(v: View) {
+                Toast.makeText(this@MainActivity,"This is sample testing",Toast.LENGTH_SHORT).show()
+            }
+
+        })).build()
+
+
+        val adapter=DynamicAdapter(list.uiCollection,onclick = object: UiParentClickListener{
+            override fun onViewClicked(v: View, position: Int, value: String) {
+                list.uiCollection[position].refValue=value
+            }
+
+            override fun sendErrorView(v: View?, position: Int) {
+                Toast.makeText(this@MainActivity,"Render Error",Toast.LENGTH_SHORT).show()
+            }
+
+        },viewBuilder = viewBuilder)
+
+        dynamic_testing.apply {
+            this.adapter=adapter
+        }
+
 
     }
 

@@ -8,16 +8,13 @@
     android:id="@+id/linearlayout"
     tools:context=".MainActivity">
 
-<!--    <com.elemental.dynamicui.view.DynamicView-->
-<!--        android:id="@+id/testing"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-    <ImageView
-        android:id="@+id/test_image"
+    <com.elemental.dynamicui.view.DynamicView
+        android:id="@+id/dynamic_testing"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </LinearLayout>

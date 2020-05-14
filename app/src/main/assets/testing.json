@@ -1,0 +1,44 @@
+{
+    "UiCollection": [
+        {
+            "refType": "text_view",
+            "refName": "",
+            "refLabel": "Testing TextView",
+            "refValue": "This is a sample text to test TextView",
+            "refRequire": true,
+            "refDataType": ""
+        },
+        {
+            "refType": "image_view",
+            "refName": "image",
+            "refLabel": "Image Testing",
+            "refValue": "https://vignette.wikia.nocookie.net/haikyuu/images/3/3c/Shimizu_S4.png/revision/latest?cb=20200114005140&path-prefix=es",
+            "refRequire": true,
+            "refDataType": ""
+        },
+        {
+            "refType": "button",
+            "refName": "btn_testing",
+            "refLabel": "Button Testing",
+            "refValue": "Test Click",
+            "refRequire": true,
+            "refDataType": ""
+        },
+        {
+            "refType": "edit_text",
+            "refName": "ed_test_number",
+            "refLabel": "Testing EditText number",
+            "refValue": "",
+            "refRequire": true,
+            "refDataType": "number"
+        },
+        {
+            "refType": "edit_text",
+            "refName": "ed_test_phone",
+            "refLabel": "Testing Phone Number",
+            "refValue": "",
+            "refRequire": true,
+            "refDataType": ""
+        }
+    ]
+}

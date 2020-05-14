@@ -2,15 +2,20 @@ package com.elemental.dynamicui.utils
 
 enum class DynamicEnum(private val keyType:String){
     //TextView
-    TextViewType("textview"),
+    TextViewType("text_view"),
     //EditText
-    EditTextType("edittext"),
+    EditTextType("edit_text"),
     EditTextInputPhoneType("phone_no"),
     EditTextInputNumberType("number"),
     EditTextInputEmailType("email"),
 
+
+    //Button
+
+    ButtonType("button"),
+
     //ImageView
-    ImageViewType("image"),
+    ImageViewType("image_view"),
 
     //Spinner Type
     SpinnerType("spinner"),
